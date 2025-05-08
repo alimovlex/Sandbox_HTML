@@ -42,25 +42,27 @@ int generate_html_file(char* file, char* filename) {
 
 int generate_page(char* filename) {
     int i;
-    char *piscineweb = htmc(htmc_doctypehtml,
-            html(head(), htmc_style("h1 {text-align: center;}"),
-                 htmc_title("Piscine Web"), 
-                 body(htmc_ccode(htmc_yield(
-                 h1("Piscine Web!"), 
-                 htmc_img("src=bsod_1.png"),
-                 htmc_img("src=bsod_2.png")
-                 
-                );
-                 
-    )
-    )
-    )
-    );
+    char* piscineweb = htmc(htmc_doctypehtml,
+        html(head(), htmc_style("h1 {text-align: center;}" 
+                                "td {text-align: center; align: center;}"),
+             htmc_title("Piscine Web"),
+             body(htmc_ccode(htmc_yield(
+             h1("Piscine Web"), 
+             htmc_table(htmc_tr(
+             htmc_td(htmc_img("src=bsod_1.png")),
+             htmc_td(htmc_img("src=bsod_2.png"))
+             )), 
+            );
+             
+)
+)
+)
+);
     
 
     char *basics = htmc(htmc_doctypehtml,
             html(head(), htmc_style("h1 {color:Red; text-align: center;}" 
-                                    "td {text-align: center;}" 
+                                    "td {text-align: center; align: center;}" 
                                     "p {font-family: monospace; text-align:right;}"),
                  htmc_title("Basics"),
                  body(htmc_ccode(htmc_yield(
@@ -77,7 +79,22 @@ int generate_page(char* filename) {
     )
     );
 
-    char *pagefile = basics;
+    char *tab = htmc(htmc_doctypehtml,
+            html(head(), htmc_style("table {width: 750px; height: 150px; border: 1px solid black;}"
+                                    "td {bgcolor: green;}" ),
+                 htmc_title("Piscine Web"),
+                 body(htmc_ccode(htmc_yield(
+                 htmc_table(htmc_tr(htmc_td("First Cell"),
+                 htmc_td("Second Cell")
+                 )),
+                );
+                 
+    )
+    )
+    )
+    );
+
+    char *pagefile = tab;
 
     generate_html_file(pagefile, filename);
     free(pagefile);
