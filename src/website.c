@@ -43,8 +43,8 @@ int generate_html_file(char* file, char* filename) {
 int generate_page(char* filename) {
     int i;
     char *piscineweb = htmc(htmc_doctypehtml,
-            html(head(),
-                 htmc_title("Piscine Web"), htmc_style("h1 {text-align: center;}"),
+            html(head(), htmc_style("h1 {text-align: center;}"),
+                 htmc_title("Piscine Web"), 
                  body(htmc_ccode(htmc_yield(
                  h1("Piscine Web!"), 
                  htmc_img("src=bsod_1.png"),
@@ -59,14 +59,17 @@ int generate_page(char* filename) {
     
 
     char *basics = htmc(htmc_doctypehtml,
-            html(head(), htmc_style("h1 {color:Red; text-align: center;}"),
+            html(head(), htmc_style("h1 {color:Red; text-align: center;}" 
+                                    "td {text-align: center;}" 
+                                    "p {font-family: monospace; text-align:right;}"),
                  htmc_title("Basics"),
                  body(htmc_ccode(htmc_yield(
-                    
                  h1("Basic WebShop"), 
-                 htmc_img("src=https://assets.s-bol.com/nl/static/assets/images/giftcard/overview/saldochecker.png"),
-                 htmc_img("src=https://easyfairsassets.com/sites/23/2022/11/210121_megekko_logo_2021_RGB_beeldmerk-boven-slogan_800x598.jpg")
-                 
+                 htmc_table(htmc_tr(htmc_td(htmc_img("src=https://assets.s-bol.com/nl/static/assets/images/giftcard/overview/saldochecker.png")),
+                 htmc_td(htmc_img("src=https://easyfairsassets.com/sites/23/2022/11/210121_megekko_logo_2021_RGB_beeldmerk-boven-slogan_800x598.jpg"))
+                 )), 
+                 htmc_hr(),
+                 htmc_p(htmc_i("© aalimov 2025"))
                 );
                  
     )
