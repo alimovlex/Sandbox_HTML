@@ -2,6 +2,9 @@
 // Created by robot on 5/5/25.
 //
 #include "htmc.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 int generate_html_file(char* file, char* filename) {
     //writing to file
@@ -42,6 +45,7 @@ int generate_html_file(char* file, char* filename) {
 
 int generate_page(char* filename) {
     int i;
+    char *pagefile = NULL;
     char* piscineweb = htmc(htmc_doctypehtml,
         html(head(), htmc_style("h1 {text-align: center;}" 
                                 "td {text-align: center; align: center;}"),
@@ -94,7 +98,21 @@ int generate_page(char* filename) {
     )
     );
 
-    char *pagefile = tab;
+    if (strstr(filename, "basics") != NULL)
+    {
+        pagefile = basics;
+    } else if (strstr(filename, "piscineweb") != NULL)
+    {
+        pagefile = piscineweb;
+    } else if (strstr(filename, "tab") != NULL)
+    {
+        pagefile = tab;
+    } else
+    {
+        printf("Unable to generate an HTML page because it is not implemented yet %s\n", __FILE__);
+        printf("Exiting...\n");
+        exit(EXIT_FAILURE);
+    }
 
     generate_html_file(pagefile, filename);
     free(pagefile);
