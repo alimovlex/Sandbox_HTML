@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
         return -1; 
     } else if (argc == 2) {
         generate_page(argv[1]);
-        printf("Genetated page with name: %s\n", argv[1]);
+        printf("Generated page with name: %s\n", argv[1]);
         return 0;
     } else {
         printf("Too many arguments passed.\n");
