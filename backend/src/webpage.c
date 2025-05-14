@@ -2,15 +2,17 @@
 #include "weather_info.h"
 
 int generate_website() {
-    char *str = "Hello World!";
-    char *title = "Piscine Web";
-    get_weather_info();
+    char *str = "Weather report";
+    char *title = "Main";
     printf("Content-type:text/html\n\n");
-	printf("<html><head><title>%s", title);
-    printf("</title></head><body>");
-	printf("<h1><center>%s", str);
-    printf("</center></h1>");
-	printf("</body></html>");
+	printf("<html>\n<head>\n<title>\n%s\n", title);
+    printf("</title>\n</head>\n<body>\n");
+	printf("<center>\n");
+    printf("<h1>%s</h1>\n", str);
+    printf("<p>\n");
+    printf("RETURN CODE: %d\n", get_weather_info());
+	printf("</p>\n");
+    printf("</body>\n</html>\n");
 	printf("\n");
     return 0;
 }

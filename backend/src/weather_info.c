@@ -132,7 +132,7 @@ int get_weather_info() {
     char *KEY = "";
     char url[1024];
     snprintf(url, sizeof(url), "%s%s%s%s%s", BASE_URL, CITY, "&appid=", KEY, "&units=metric");
-    printf("%s\n", url);
+    //printf("%s\n", url);
 
     CURL *ch;                                               /* curl handle */
     CURLcode rcode;                                         /* curl result code */
@@ -149,7 +149,7 @@ int get_weather_info() {
         /* log error */
         fprintf(stderr, "ERROR: Failed to create curl handle in fetch_session");
         /* return error */
-        return 1;
+        return -1;
     }
 
     /* fetch page and capture return code */
@@ -161,16 +161,16 @@ int get_weather_info() {
         fprintf(stderr, "ERROR: Failed to fetch url (%s) - curl said: %s",
                 url, curl_easy_strerror(rcode));
         /* return error */
-        return 1;
+        return -1;
     }
 
     /* check payload */
     if (cf->payload != NULL) {
         /* print result */
-        printf("CURL Returned: \n%s\n", cf->payload);
+        //printf("CURL Returned: \n%s\n", cf->payload);
         /* parse return */
         json = json_tokener_parse_verbose(cf->payload, &jerr);
-
+        printf("%s", cf->payload);
         /* free payload */
         free(cf->payload);
     } else {
@@ -179,9 +179,9 @@ int get_weather_info() {
         /* free payload */
         free(cf->payload);
         /* return */
-        return 1;
+        return -1;
     }
-    parse_json(json ,"coord");
+    //parse_json(json ,"coord");
 
     return 0;
 }
