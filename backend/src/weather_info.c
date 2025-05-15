@@ -106,33 +106,53 @@ CURLcode curl_fetch_url(CURL *ch, const char *url, struct curl_fetch_st *fetch) 
     return rcode;
 }
 
+const char* json_get_subkey(json_object *main, json_object *temp, char* key) {
+    const char *str = json_object_get_string(main);
+    temp = json_object_object_get(main, key);
+    str = json_object_get_string(temp);
+    return str;
+}
+
 void parse_json(json_object *json, char* key) {
-    struct json_object *json_value;
+    json_object *json_value, *temp;
     const char *value;
     json_value = json_object_object_get(json, key);
     value = json_object_get_string(json_value);
 
-    if (strcmp(key, "query") == 0)
+    if (strcmp(key, "weather") == 0)
     {
-        printf("Public IP: %s\n", value);
-
-        // do something
-    } else if (strlen(value) == 0) {
-        return;
+        size_t temp_n = json_object_array_length(json_value);
+        for (int i = 0; i < temp_n; i++)
+        {
+            temp = json_object_array_get_idx(json_value, i);
+            json_object *description = json_object_object_get(temp, "description");
+            printf("<br>Description: %s</br>\n", json_object_get_string(description));
+        }
+    } else if (strcmp(key, "main") == 0)
+    {
+        temp = NULL;
+        json_object *main = json_object_object_get(json, key);
+        const char* temperature = json_get_subkey(main, temp, "temp");
+        const char* humidity = json_get_subkey(main, temp, "humidity");
+        printf("<br>Current temperature: %sC</br>\n", temperature);
+        printf("<br>Humidity: %s%%</br>\n", humidity);
+    } else if (strcmp(key, "wind") == 0)
+    {
+        temp = NULL;
+        json_object *main = json_object_object_get(json, key);
+        const char* speed = json_get_subkey(main, temp, "speed");
+        printf("<br>Wind speed: %s m/s</br>\n", speed);
     } else {
-        printf("%s: %s\n",key, value);
+        printf("<br>%s</br>\n", value);
     }
-
 }
 
-int get_weather_info() {
+int get_weather_info(char* CITY) {
     int i = 0;
-    char *CITY = "";
     char *BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     char *KEY = "";
     char url[1024];
     snprintf(url, sizeof(url), "%s%s%s%s%s", BASE_URL, CITY, "&appid=", KEY, "&units=metric");
-    //printf("%s\n", url);
 
     CURL *ch;                                               /* curl handle */
     CURLcode rcode;                                         /* curl result code */
@@ -170,7 +190,7 @@ int get_weather_info() {
         //printf("CURL Returned: \n%s\n", cf->payload);
         /* parse return */
         json = json_tokener_parse_verbose(cf->payload, &jerr);
-        printf("%s", cf->payload);
+        //printf("%s", cf->payload);
         /* free payload */
         free(cf->payload);
     } else {
@@ -181,8 +201,10 @@ int get_weather_info() {
         /* return */
         return -1;
     }
-    //parse_json(json ,"coord");
-
+    parse_json(json, "name");
+    parse_json(json ,"weather");
+    parse_json(json, "main");
+    parse_json(json, "wind");
     return 0;
 }
 

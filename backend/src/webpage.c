@@ -10,7 +10,7 @@ int generate_website() {
 	printf("<center>\n");
     printf("<h1>%s</h1>\n", str);
     printf("<p>\n");
-    printf("RETURN CODE: %d\n", get_weather_info());
+    printf("RETURN CODE: %d\n", get_weather_info("London"));
 	printf("</p>\n");
     printf("</body>\n</html>\n");
 	printf("\n");
